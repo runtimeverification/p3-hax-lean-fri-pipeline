@@ -1,0 +1,30 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs":
+ {"o": ["df69e8386e70c7d6.olean"],
+  "i": "37c3a986f0d65756.ilean",
+  "c": "3745863bb1c9e076.c"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=/home/natalie/p3-hax-lean-fri-pipeline/rust/p3_fri_kernel/proofs/lean/extraction/.lake/packages/Hax/hax-lib/proof-libs/lean/.lake/build/lib/lean:/home/natalie/p3-hax-lean-fri-pipeline/rust/p3_fri_kernel/proofs/lean/extraction/.lake/build/lib/lean /home/natalie/.elan/toolchains/leanprover--lean4---v4.26.0/bin/lean /home/natalie/p3-hax-lean-fri-pipeline/rust/p3_fri_kernel/proofs/lean/extraction/CoreModelsPatch.lean -o /home/natalie/p3-hax-lean-fri-pipeline/rust/p3_fri_kernel/proofs/lean/extraction/.lake/build/lib/lean/CoreModelsPatch.olean -i /home/natalie/p3-hax-lean-fri-pipeline/rust/p3_fri_kernel/proofs/lean/extraction/.lake/build/lib/lean/CoreModelsPatch.ilean -c /home/natalie/p3-hax-lean-fri-pipeline/rust/p3_fri_kernel/proofs/lean/extraction/.lake/build/ir/CoreModelsPatch.c --setup /home/natalie/p3-hax-lean-fri-pipeline/rust/p3_fri_kernel/proofs/lean/extraction/.lake/build/ir/CoreModelsPatch.setup.json --json",
+   "level": "trace"}],
+ "inputs":
+ [["CoreModelsPatch:deps",
+   [["deps",
+     [["p3_fri_kernel/p3_fri_kernel:extraDep",
+       [["@p3_fri_kernel:extraDep", "00000000000006bb"]]],
+      ["imports",
+       [["Hax transitive imports (legacy)", "3c0c8dac243b604d"],
+        ["Hax:importAllArts", "41b973641b73e87e"]]]]],
+    ["libs",
+     [["import dynlibs", "00000000000006bb"],
+      ["package external libraries", "00000000000006bb"],
+      ["module dynlibs", "00000000000006bb"],
+      ["module plugins", "00000000000006bb"]]]]],
+  ["Lean 4.26.0, commit d8204c9fd894f91bbb2cdfec5912ec8196fd8562",
+   "9c9419104e9584f8"],
+  ["/home/natalie/p3-hax-lean-fri-pipeline/rust/p3_fri_kernel/proofs/lean/extraction/CoreModelsPatch.lean",
+   "4faaa5f5acaa9475"],
+  ["options", "00000000000006bb"],
+  ["Module.leanArgs: #[]", "00000000000006bb"]],
+ "depHash": "0855b10037b1aeb5"}

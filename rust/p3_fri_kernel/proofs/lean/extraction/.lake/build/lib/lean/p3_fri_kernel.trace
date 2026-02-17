@@ -1,0 +1,32 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs":
+ {"o": ["753cad708e7a7d0d.olean"],
+  "i": "c5410d0ddd28fd84.ilean",
+  "c": "acbdf9268d3d78f8.c"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=/home/natalie/p3-hax-lean-fri-pipeline/rust/p3_fri_kernel/proofs/lean/extraction/.lake/packages/Hax/hax-lib/proof-libs/lean/.lake/build/lib/lean:/home/natalie/p3-hax-lean-fri-pipeline/rust/p3_fri_kernel/proofs/lean/extraction/.lake/build/lib/lean /home/natalie/.elan/toolchains/leanprover--lean4---v4.26.0/bin/lean /home/natalie/p3-hax-lean-fri-pipeline/rust/p3_fri_kernel/proofs/lean/extraction/p3_fri_kernel.lean -o /home/natalie/p3-hax-lean-fri-pipeline/rust/p3_fri_kernel/proofs/lean/extraction/.lake/build/lib/lean/p3_fri_kernel.olean -i /home/natalie/p3-hax-lean-fri-pipeline/rust/p3_fri_kernel/proofs/lean/extraction/.lake/build/lib/lean/p3_fri_kernel.ilean -c /home/natalie/p3-hax-lean-fri-pipeline/rust/p3_fri_kernel/proofs/lean/extraction/.lake/build/ir/p3_fri_kernel.c --setup /home/natalie/p3-hax-lean-fri-pipeline/rust/p3_fri_kernel/proofs/lean/extraction/.lake/build/ir/p3_fri_kernel.setup.json --json",
+   "level": "trace"}],
+ "inputs":
+ [["p3_fri_kernel:deps",
+   [["deps",
+     [["p3_fri_kernel/p3_fri_kernel:extraDep",
+       [["@p3_fri_kernel:extraDep", "00000000000006bb"]]],
+      ["imports",
+       [["Hax transitive imports (legacy)", "3c0c8dac243b604d"],
+        ["Hax:importAllArts", "41b973641b73e87e"],
+        ["CoreModelsPatch transitive imports (legacy)", "e8a287e85c0721d9"],
+        ["CoreModelsPatch:importAllArts", "d382027566d136ee"]]]]],
+    ["libs",
+     [["import dynlibs", "00000000000006bb"],
+      ["package external libraries", "00000000000006bb"],
+      ["module dynlibs", "00000000000006bb"],
+      ["module plugins", "00000000000006bb"]]]]],
+  ["Lean 4.26.0, commit d8204c9fd894f91bbb2cdfec5912ec8196fd8562",
+   "9c9419104e9584f8"],
+  ["/home/natalie/p3-hax-lean-fri-pipeline/rust/p3_fri_kernel/proofs/lean/extraction/p3_fri_kernel.lean",
+   "10dc5d4bcf85a5a2"],
+  ["options", "00000000000006bb"],
+  ["Module.leanArgs: #[]", "00000000000006bb"]],
+ "depHash": "da0eb3ddc6889193"}
