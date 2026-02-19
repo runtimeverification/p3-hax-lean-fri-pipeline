@@ -1,21 +1,44 @@
-# --- Rust ---
-/rust/**/target/
+########################################
+# Rust / Cargo
+########################################
+**/target/
 **/*.rs.bk
 
-# --- Lean / Lake ---
-/lean/.lake/
-/lean/lake-manifest.json
-/lean/**/.olean
-/lean/**/.ilean
-/lean/**/.c
-/lean/**/.bc
-/lean/**/.so
-/lean/**/.a
+# Cargo local config caches 
+**/.cargo/.crates.toml
+**/.cargo/.crates2.json
 
-# --- OS / editors ---
+########################################
+# Lean / Lake
+########################################
+# Lake build artifacts and downloaded packages
+**/.lake/
+
+# Lean compiled artifacts
+**/*.olean
+**/*.ilean
+**/*.c
+**/*.bc
+**/*.so
+**/*.a
+**/*.trace
+**/*.olean.hash
+**/*.ilean.hash
+
+# lake-manifest.json 
+
+########################################
+# Hax extraction 
+########################################
+
+**/build/
+
+########################################
+# OS / editors
+########################################
 .DS_Store
+**/.DS_Store
 *.swp
 *.swo
 .idea/
 .vscode/
-

@@ -1,9 +1,10 @@
 name = "P3FriProofs"
 version = "0.1.0"
-defaultTargets = ["P3FriProofs"]
+defaultTargets = ["FoldingCorrectness"]
 
 [[lean_lib]]
-name = "P3FriProofs"
+name = "FoldingCorrectness"
+roots = ["Proofs.FoldingCorrectness"]
 
 [[require]]
 name = "ArkLib"
