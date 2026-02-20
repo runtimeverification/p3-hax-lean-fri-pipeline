@@ -78,8 +78,37 @@ theorem arity_respects_target_distance
   sorry
 
 -- Result ≤ max_log_arity (always; reflects final min-with-cap)
-theorem arity_respects_max_bound
-  (log_current_height : USize64)
+theorem RustM_bind_eq_ok {α β : Type} (x : RustM α) (f : α → RustM β) (r : β) :
+  RustM.bind x f = .ok r → ∃ a, x = .ok a ∧ f a = .ok r := by
+  cases x with
+  | ok a =>
+      intro hx
+      refine ⟨a, rfl, ?_⟩
+      simpa [RustM.bind] using hx
+  | fail e =>
+      intro hx
+      simp [RustM.bind] at hx
+  | div =>
+      intro hx
+      simp [RustM.bind] at hx
+
+
+theorem RustM_ok_ite_decide_lt_le_right (a b r : USize64) :
+  (if decide (a < b) then (RustM.ok a : RustM USize64) else RustM.ok b) = RustM.ok r → r ≤ b := by
+  intro h
+  by_cases hlt : a < b
+  · simp [hlt] at h
+    cases h
+    have hnat : a.toNat < b.toNat := by
+      simpa using hlt
+    change a.toNat ≤ b.toNat
+    exact Nat.le_of_lt hnat
+  · simp [hlt] at h
+    cases h
+    change b.toNat ≤ b.toNat
+    exact le_rfl
+
+theorem arity_respects_max_bound (log_current_height : USize64)
   (next_input_log_height : Core_models.Option.Option USize64)
   (log_final_height : USize64)
   (max_log_arity : USize64)
@@ -89,7 +118,39 @@ theorem arity_respects_max_bound
                 log_current_height next_input_log_height
                 log_final_height max_log_arity = .ok result)
   : result.toNat ≤ max_log_arity.toNat := by
-  sorry
+  classical
+  unfold P3_fri_kernel.compute_log_arity_for_round at h_result
+
+  have bound_of_if (a b r : USize64)
+      (h : (if a < b then (RustM.ok a : RustM USize64) else RustM.ok b) = RustM.ok r) :
+      r ≤ b := by
+    apply RustM_ok_ite_decide_lt_le_right (a := a) (b := b) (r := r)
+    by_cases hlt : a < b <;> simpa [hlt] using h
+
+  rcases RustM_bind_eq_ok _ _ _ h_result with ⟨max_fold_to_target, htarget, hrest⟩
+  cases next_input_log_height with
+  | None =>
+      simp at hrest
+      have hle : result ≤ max_log_arity := bound_of_if max_fold_to_target max_log_arity result (by
+        simpa using hrest)
+      exact (USize64.le_iff_toNat_le).1 hle
+  | Some next_log_height =>
+      rcases RustM_bind_eq_ok _ _ _ hrest with ⟨max_fold_to_next, hnext, hrest2⟩
+      simp at hrest2
+      by_cases hcmp : max_fold_to_next < max_fold_to_target
+      · have hinner :
+            (if max_fold_to_next < max_log_arity then (RustM.ok max_fold_to_next : RustM USize64) else RustM.ok max_log_arity) =
+              RustM.ok result := by
+            simpa [hcmp] using hrest2
+        have hle : result ≤ max_log_arity := bound_of_if max_fold_to_next max_log_arity result hinner
+        exact (USize64.le_iff_toNat_le).1 hle
+      · have hinner :
+            (if max_fold_to_target < max_log_arity then (RustM.ok max_fold_to_target : RustM USize64) else RustM.ok max_log_arity) =
+              RustM.ok result := by
+            simpa [hcmp] using hrest2
+        have hle : result ≤ max_log_arity := bound_of_if max_fold_to_target max_log_arity result hinner
+        exact (USize64.le_iff_toNat_le).1 hle
+
 
 -- Result ≤ distance to next input (Some case)
 -- Reflects debug_assert!(log_current_height > next_log_height)
