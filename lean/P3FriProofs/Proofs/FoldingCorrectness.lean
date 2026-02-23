@@ -65,8 +65,22 @@ theorem compute_log_arity_gives_folding_degree
 
 -- Result ≤ distance to final height (None case)
 -- Reflects debug_assert!(log_current_height > log_final_height)
-theorem arity_respects_target_distance
-  (log_current_height : USize64)
+theorem RustM_ok_ite_decide_lt_le_left (a b r : USize64) :
+  (if decide (a < b) then (RustM.ok a : RustM USize64) else RustM.ok b) = RustM.ok r → r ≤ a := by
+  intro h
+  by_cases hlt : a < b
+  · simp [hlt] at h
+    cases h
+    change a.toNat ≤ a.toNat
+    exact le_rfl
+  · simp [hlt] at h
+    cases h
+    change b.toNat ≤ a.toNat
+    apply Nat.le_of_not_gt
+    -- goal: ¬ b.toNat > a.toNat
+    simpa using hlt
+
+theorem arity_respects_target_distance (log_current_height : USize64)
   (log_final_height : USize64)
   (max_log_arity : USize64)
   (result : USize64)
@@ -75,7 +89,33 @@ theorem arity_respects_target_distance
                 log_current_height Core_models.Option.Option.None
                 log_final_height max_log_arity = .ok result)
   : result.toNat ≤ log_current_height.toNat - log_final_height.toNat := by
-  sorry
+  classical
+  have hgt' : log_final_height.toNat < log_current_height.toNat := by
+    simpa using h_gt
+  have hnot : ¬log_current_height.toNat < log_final_height.toNat := by
+    exact Nat.not_lt_of_ge (Nat.le_of_lt hgt')
+
+  unfold P3_fri_kernel.compute_log_arity_for_round at h_result
+  -- simplify the checked subtraction using the height inequality, then the None branch
+  simp [RustM.bind, Core_models.Ops.Arith.Sub.sub, instSubUSize64_1, BitVec.usubOverflow, hnot] at h_result
+
+  have hle : result ≤ log_current_height - log_final_height := by
+    apply RustM_ok_ite_decide_lt_le_left (a := log_current_height - log_final_height)
+      (b := max_log_arity) (r := result)
+    by_cases hlt : log_current_height - log_final_height < max_log_arity <;>
+      simpa [hlt] using h_result
+
+  have hleNat : result.toNat ≤ (log_current_height - log_final_height).toNat :=
+    (USize64.le_iff_toNat_le).1 hle
+
+  have hsub : (log_current_height - log_final_height).toNat =
+      log_current_height.toNat - log_final_height.toNat := by
+    exact
+      USize64.toNat_sub_of_le' (x := log_current_height) (y := log_final_height)
+        (Nat.le_of_lt hgt')
+
+  simpa [hsub] using hleNat
+
 
 -- Result ≤ max_log_arity (always; reflects final min-with-cap)
 theorem RustM_bind_eq_ok {α β : Type} (x : RustM α) (f : α → RustM β) (r : β) :
