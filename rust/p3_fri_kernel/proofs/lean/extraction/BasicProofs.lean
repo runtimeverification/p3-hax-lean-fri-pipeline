@@ -31,6 +31,58 @@ theorem bounded_by_max_log_arity
     result)
   : result.toNat ≤ max_log_arity.toNat := by
   sorry
+  -- simp only [returns, P3_fri_kernel.compute_log_arity_for_round,
+  --            Bind.bind, RustM.bind, Pure.pure, RustM.instPure,
+  --            Rust_primitives.Hax.Machine_int.lt] at h_result
+  -- cases h1 : (log_current_height -? log_final_height) with
+  -- | ok mft =>
+  --   -- Use rcases for Option (avoids nested cases...with|C parsing issues)
+  --   -- Constructor order: Some first, None second
+  --   rcases next_input_log_height with nlh | _
+  --   · -- Some nlh
+  --     simp only [h1] at h_result
+  --     cases h2 : (log_current_height -? nlh) with
+  --     | ok mfn =>
+  --       simp only [h2] at h_result
+  --       -- Bool case-split instead of split_ifs (the if is Bool.casesOn, not ite)
+  --       cases h3 : (decide (mfn < mft)) with
+  --       | true =>
+  --         simp only [h3] at h_result
+  --         cases h4 : (decide (mfn < max_log_arity)) with
+  --         | true =>
+  --           simp only [h4] at h_result
+  --           simp only [RustM.ok.injEq] at h_result; subst h_result
+  --           exact USize64.le_iff_toNat_le.mp (le_of_lt (of_decide_eq_true h4))
+  --         | false =>
+  --           simp only [h4] at h_result
+  --           simp only [RustM.ok.injEq] at h_result; subst h_result
+  --           exact Nat.le_refl _
+  --       | false =>
+  --         simp only [h3] at h_result
+  --         cases h4 : (decide (mft < max_log_arity)) with
+  --         | true =>
+  --           simp only [h4] at h_result
+  --           simp only [RustM.ok.injEq] at h_result; subst h_result
+  --           exact USize64.le_iff_toNat_le.mp (le_of_lt (of_decide_eq_true h4))
+  --         | false =>
+  --           simp only [h4] at h_result
+  --           simp only [RustM.ok.injEq] at h_result; subst h_result
+  --           exact Nat.le_refl _
+  --     | fail e => simp only [h2] at h_result
+  --     | div => simp only [h2] at h_result
+  --   · -- None
+  --     simp only [h1] at h_result
+  --     cases h2 : (decide (mft < max_log_arity)) with
+  --     | true =>
+  --       simp only [h2] at h_result
+  --       simp only [RustM.ok.injEq] at h_result; subst h_result
+  --       exact USize64.le_iff_toNat_le.mp (le_of_lt (of_decide_eq_true h2))
+  --     | false =>
+  --       simp only [h2] at h_result
+  --       simp only [RustM.ok.injEq] at h_result; subst h_result
+  --       exact Nat.le_refl _
+  -- | fail e => simp only [h1] at h_result
+  -- | div => simp only [h1] at h_result
 
 -- Property 2: Result ≤ distance from current to final
 -- (None case — no next-input constraint)
@@ -145,6 +197,7 @@ example :
       result
     ∧ result.toNat = 7 := by
   sorry
+
 
 -- 10 - 3 = 7; max_arity 4 caps ⟹ result = 4
 example :
